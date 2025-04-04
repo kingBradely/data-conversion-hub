@@ -1,0 +1,2 @@
+# data-conversion-hub
+ Data Conversion Hub is an Angular-based app designed for seamless data format transformations and optimizations. Featuring JSON ↔ XML, CSV ↔ JSON, and YAML ↔ JSON conversions, as well as advanced tools for data validation, pretty formatting, minification, custom delimiters, and encoding. Empower developers and data professionals with a user-friendly interface, high-performance capabilities, and cutting-edge state management powered by RxJS and NGRX. Perfect for web development, DevOps, and automation enthusiasts.
