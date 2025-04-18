@@ -6,6 +6,7 @@
 
 /** Plugins **/
 @import './assets/styles/apexchart.css';
+@import './assets/styles/highlight.css';
 
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
@@ -291,4 +292,21 @@ select {
 [type='checkbox'],
 [type='radio'] {
   @apply h-4 w-4 rounded-sm border-border bg-background checked:border-primary checked:bg-primary indeterminate:border-primary indeterminate:bg-primary focus:ring-2 focus:ring-primary;
+}
+
+
+.source-input{
+  height: 500px !important;
+}
+.dark .source-input{
+  height: 500px !important;
+  background-color: #0d1117 !important;
+}
+
+
+.logo-icon{
+  width: 40%;
+}
+.logo-icon-lg{
+  width: 60%;
 }

@@ -1,5 +1,6 @@
 import { effect, Injectable, signal, Signal } from "@angular/core";
 import { Theme } from "../models/theme.model";
+import { HighlightLoader } from "ngx-highlightjs";
 
 @Injectable({
     providedIn: 'root'
@@ -7,7 +8,7 @@ import { Theme } from "../models/theme.model";
 export class ThemeService{
     public theme = signal<Theme>({mode: 'light', color: 'primary', direction: 'ltr'});
 
-    constructor(){
+    constructor(private hljsLoader : HighlightLoader){
         this.loadTheme();
         effect(() => {
             this.setConfig();
@@ -16,9 +17,10 @@ export class ThemeService{
 
 
     private loadTheme() {
-        const theme = localStorage.getItem('theme');
-        if (theme) {
-          this.theme.set(JSON.parse(theme));
+        const theme = JSON.parse(localStorage.getItem('theme') || '{}');
+        if (theme?.mode) {
+          this.theme.set(theme);
+          this.changeHighlightTheme(theme?.mode);
         }
       }
     
@@ -35,6 +37,8 @@ export class ThemeService{
       private setThemeClass() {
         document.querySelector('html')!.className = this.theme().mode;
         document.querySelector('html')!.setAttribute('data-theme', this.theme().color);
+        this.changeHighlightTheme(this.isDark ? 'dark' : 'light');
+
       }
     
       private setLocalStorage() {
@@ -44,5 +48,9 @@ export class ThemeService{
       private setRTL() {
         document.querySelector('html')!.setAttribute('dir', this.theme().direction);
         this.setLocalStorage();
+      }
+
+      private changeHighlightTheme(appTheme: 'dark' | 'light') {
+        this.hljsLoader.setTheme(appTheme === 'dark' ? 'assets/styles/github-dark.css' : 'assets/styles/github.css');
       }
 }

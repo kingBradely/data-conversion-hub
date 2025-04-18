@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { MenuService } from '../../../services/menu.service';
+import { ThemeService } from '../../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-navbar-mobile',
@@ -8,8 +9,14 @@ import { MenuService } from '../../../services/menu.service';
   styleUrl: './navbar-mobile.component.css'
 })
 export class NavbarMobileComponent implements OnInit {
-  constructor(public menuService: MenuService) {}
-
+  logoLight = 'assets/icons/logo-light.png';
+  logoDark = 'assets/icons/logo-dark.png';
+  logo: string =""
+  constructor(public menuService: MenuService, public themeService : ThemeService) {
+    effect(() => {
+      this.logo = this.themeService.isDark ? this.logoDark : this.logoLight;
+    })
+  }
   ngOnInit(): void {}
 
   public toggleMobileMenu(): void {

@@ -1,0 +1,75 @@
+/*
+GitHub Dark theme for highlight.js
+Author: GitHub.com
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #c9d1d9;
+  background: #0d1117;
+}
+
+.hljs-comment,
+.hljs-punctuation {
+  color: #8b949e;
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-meta,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id {
+  color: #d2a8ff;
+}
+
+.hljs-name{
+  color: #56D35B;
+}
+
+.hljs-variable,
+.hljs-literal,
+.hljs-number,
+.hljs-doctag {
+  color: #ff7b72;
+}
+
+.hljs-string {
+  color: #a5d6ff;
+}
+
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #ff7b72;
+}
+
+.hljs-name,
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+/* Line numbers */
+.hljs-ln {
+  border-collapse: collapse;
+}
+
+.hljs-ln td {
+  padding: 0;
+  padding-right: 0.75em;
+}
+
+.hljs-ln-n:before {
+  content: attr(data-line-number);
+  color: #6a737d;
+  padding-right: 0.75em;
+}
