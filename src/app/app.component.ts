@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ThemeService } from './core/services/theme.service';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { ThemeService } from './core/services/theme.service';
 })
 export class AppComponent {
   title = 'Task Manager';
-  constructor(public themeService: ThemeService) {
-    console.log('AppComponent constructor');
+  constructor(public themeService: ThemeService, private authService: AuthService) {
+    this.authService.socialAuthInit()
   }
 }

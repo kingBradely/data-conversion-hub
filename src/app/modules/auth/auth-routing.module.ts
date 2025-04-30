@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthComponent } from './auth.component';
+import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
+
 
 const routes: Routes = [
   {
@@ -12,6 +14,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'sign-in', pathMatch: 'full' },
       { path: 'sign-in', component: LoginComponent, data: { returnUrl: window.location.pathname } },
       { path: 'sign-up', component: RegisterComponent },
+      { path: 'email-confirmation', component: EmailConfirmationComponent },
       // { path: 'forgot-password', component: ForgotPasswordComponent },
       // { path: 'new-password', component: NewPasswordComponent },
       // { path: 'two-steps', component: TwoStepsComponent },

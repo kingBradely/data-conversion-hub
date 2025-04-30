@@ -6,7 +6,7 @@ type ButtonProps = {
   impact: 'bold' | 'light' | 'none';
   size: 'small' | 'medium' | 'large';
   shape: 'square' | 'rounded' | 'pill';
-  tone: 'primary' | 'danger' | 'success' | 'warning' | 'info' | 'light';
+  tone: 'primary' | 'danger' | 'success' | 'warning' | 'info' | 'light' | 'blue';
   shadow: 'none' | 'small' | 'medium' | 'large';
   type: 'button' | 'submit' | 'reset';
 };
@@ -67,6 +67,11 @@ export class ButtonComponent implements OnInit {
       bold: 'bg-muted text-muted-foreground hover:bg-muted/90 focus-visible:ring-muted',
       light: 'bg-muted/20 text-muted-foreground hover:bg-muted focus-visible:ring-muted',
       none: 'bg-transparent text-muted-foreground hover:bg-muted focus-visible:ring-muted',
+    },
+    blue: {
+      bold: 'bg-blue-500 text-white hover:bg-blue-600 focus-visible:ring-blue-500',
+      light: 'bg-blue-500/20 text-blue-600 hover:bg-blue-500/30 focus-visible:ring-blue-500',
+      none: 'bg-transparent text-blue-600 hover:bg-blue-500/10 focus-visible:ring-blue-500',
     },
   };
 

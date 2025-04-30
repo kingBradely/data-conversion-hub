@@ -1,0 +1,4 @@
+<app-button (click)="handleGoogleLogin()" full impact="bold" tone="light" shape="rounded" size="medium">
+  <svg-icon src="assets/icons/google-logo.svg" [svgClass]="'h-6 w-6 mr-2'"> </svg-icon>
+  {{isSignUp ? 'Sign up with Google' : 'Sign in with Google'}}
+</app-button>

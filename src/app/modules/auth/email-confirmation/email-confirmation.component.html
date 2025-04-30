@@ -1,0 +1,33 @@
+<form [formGroup]="form" class="my-10 space-y-6">
+    <div class="text-center">
+      <h2 class="text-foreground mb-1 text-3xl font-semibold">Two Step Verification</h2>
+      <p class="text-muted-foreground text-sm">Enter the verification code we sent to</p>
+      <div class="text-muted-foreground mt-2 text-lg">{{user.email}}</div>
+    </div>
+  
+    <div class="grid grid-cols-6" formArrayName="otp">
+      @for (item of inputs; track $index) {
+      <input
+        #otpInput
+        [formControlName]="$index"
+        (input)="onOtpInput($event, $index)"
+        (keydown)="onKeyDown($event, $index)"
+        placeholder=""
+        maxlength="1"
+        class="border-border bg-background text-muted-foreground focus:border-primary h-10 w-10 rounded-md border text-center outline-hidden sm:h-14 sm:w-14" />
+      }
+    </div>
+    <app-timer [startCountdown]="startCountdown"></app-timer>
+    <div class="flex items-center justify-between">
+      <p class="text-muted-foreground">Didn't receive the code?</p>
+      <app-button (click)="resendVerificationCode()" type="button" impact="bold" tone="primary" shape="rounded" size="medium">
+        Resend Code
+      </app-button>
+    </div>
+    <!-- Submit Button -->
+    <div>
+      <app-button type="button" (click)="sendVerificationCode()" full impact="bold" tone="primary" shape="rounded" size="medium">
+        Submit
+      </app-button>
+    </div>
+  </form>

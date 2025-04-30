@@ -1,0 +1,36 @@
+<!-- Timer Container -->
+<div class="flex flex-col items-center justify-center mb-2 p-2 rounded-lg bg-background " *ngIf="startCountdown === true && isRunning == true">
+    
+    <!-- Progress Ring with Centered Timer -->
+    <div class="relative w-16 h-16">
+        <!-- Timer Display -->
+        <div class="absolute inset-0 flex items-center justify-center z-10">
+            <div class="text-sm font-bold font-mono text-primary">
+                {{ formatTime(timeLeft) }}
+            </div>
+        </div>
+        
+        <svg class="w-full h-full transform -rotate-90">
+            <circle
+                cx="32"
+                cy="32"
+                r="29"
+                stroke="currentColor"
+                stroke-width="4"
+                fill="transparent"
+                class="text-muted"
+            />
+            <circle
+                cx="32"
+                cy="32"
+                r="29"
+                stroke="currentColor"
+                stroke-width="4"
+                fill="transparent"
+                [attr.stroke-dasharray]="182"
+                [attr.stroke-dashoffset]="182 * (timeLeft / (15 * 60))"
+                class="text-primary transition-all duration-1000 ease-linear"
+            />
+        </svg>
+    </div>
+</div>

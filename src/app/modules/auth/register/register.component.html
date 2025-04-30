@@ -1,1 +1,116 @@
-<p>register works!</p>
+<!-- login form -->
+<form class="my-10 space-y-6" [formGroup]="form">
+    <div class="text-center">
+        <h2 class="text-foreground mb-1 text-3xl font-semibold">Sign Up <span class="text-primary">!</span></h2>
+        <p class="text-muted-foreground text-sm">Let's get started with your 30 day free trial</p>
+    </div>
+
+    <div class="flex flex-col  gap-3">
+        <app-google-sign-in-button [isSignUp]="true" (loginWithGoogle)="googleSignin($event)"></app-google-sign-in-button>
+        <app-button (click)="signInWithFB()" full impact="bold" tone="blue" type="button" shape="rounded" size="medium">
+            <svg-icon src="assets/icons/facebook-logo.svg" [svgClass]="'h-6 w-6 mr-2'"> </svg-icon>
+            Sign up with Facebook
+        </app-button>
+    </div>
+
+    <div
+        class="before:border-muted after:border-muted my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t after:mt-0.5 after:flex-1 after:border-t">
+        <p class="text-muted-foreground mx-4 mb-0 text-center text-sm">or</p>
+    </div>
+
+    <div class="space-y-3 text-left">
+        <div class="relative">
+            <input type="text" formControlName="firstName" id="firstName" class="peer block" placeholder=" " />
+            <label for="firstName"
+                class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 ltr:left-1 rtl:right-1">
+                First Name
+            </label>
+        </div>
+        <div class="relative">
+            <input type="text" formControlName="lastName" id="lastName" class="peer block" placeholder=" " />
+            <label for="lastName"
+                class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 ltr:left-1 rtl:right-1">
+                Last Name
+            </label>
+        </div>
+        <div class="relative">
+            <input type="text" formControlName="email" id="email" class="peer block" placeholder=" " />
+            <label for="email"
+                class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 ltr:left-1 rtl:right-1">
+                Email address
+            </label>
+        </div>
+        <div class="form__group">
+            <div class="relative">
+                <input [type]="passwordTextType ? 'text' : 'password'" id="password"
+                    [ngClass]="{ 'is__invalid-input': submitted && f['password'].errors }" class="peer block"
+                    placeholder=" " formControlName="password" />
+                <label for="password" [ngClass]="{ 'peer-focus:text-destructive!': submitted && f['password'].errors }"
+                    class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 ltr:left-1 rtl:right-1">
+                    Password
+                </label>
+                <span class="text-muted-foreground absolute top-2 cursor-pointer ltr:right-3 rtl:left-3"
+                    (click)="togglePasswordTextType()">
+                    <svg-icon [src]="
+                  !passwordTextType
+                    ? 'assets/icons/heroicons/outline/eye-off.svg'
+                    : 'assets/icons/heroicons/outline/eye.svg'
+                " [svgClass]="'h-5 w-5'">
+                    </svg-icon>
+                </span>
+            </div>
+            <div *ngIf="submitted && f['password'].errors" class="is__invalid-error">
+                <div *ngIf="f['password'].errors['required']">Required field</div>
+            </div>
+        </div>
+        <!-- Password Meeter -->
+        <div class="grid grid-cols-5 gap-2">
+            <div class="rounded-xs bg-muted h-1" [class.bg-primary]="paswordStrength>=1"></div>
+            <div class="rounded-xs bg-muted h-1" [class.bg-primary]="paswordStrength>=2"></div>
+            <div class="rounded-xs bg-muted h-1" [class.bg-primary]="paswordStrength>=3"></div>
+            <div class="rounded-xs bg-muted h-1" [class.bg-primary]="paswordStrength>=4"></div>
+            <div class="rounded-xs bg-muted h-1" [class.bg-primary]="paswordStrength==5"></div>
+        </div>
+        <span class="text-muted-foreground text-xs" *ngIf="f['password'].value?.length > 0">
+            Use 8 or more characters with a mix of letters, numbers & symbols.
+        </span>
+
+        <div class="form__group">
+            <div class="relative">
+                <input type="password" formControlName="confirmPassword" id="confirm-password" class="peer block"
+                    placeholder=" " />
+                <label for="confirm-password"
+                    class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+                    Confirm Password
+                </label>
+            </div>
+            <div *ngIf="submitted && f['confirmPassword'].errors" class="is__invalid-error">
+                <div *ngIf="f['confirmPassword'].errors['required']">Required field</div>
+            </div>
+            <div *ngIf="this.form.get('confirmPassword')?.value && this.form?.errors?.['passwordNoMatch']" class="is__invalid-error">
+                <div>confirm password not match</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-between space-x-3">
+        <div class="flex items-center gap-1">
+            <input id="accept-term" name="accept-term" formControlName="acceptTerms" type="checkbox" />
+            <label for="accept-term" class="text-muted-foreground ml-2 block text-sm"> I Accept the </label>
+            <app-button type="button" (click)="openTerms('/terms')" impact="none" tone="primary" shape="rounded" size="small">Terms</app-button>
+        </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div>
+        <app-button (buttonClick)="onSubmit()" full impact="bold" tone="primary" shape="rounded" size="medium">Sign up</app-button>
+    </div>
+
+    <!-- Sign-up -->
+    <div class="text-muted-foreground flex items-center text-sm">
+        Already have an Account?
+        <app-button type="button" routerLink="/auth/sign-in" full impact="none" tone="primary" shape="rounded" size="small">
+            Sign in
+        </app-button>
+    </div>
+</form>

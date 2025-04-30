@@ -295,6 +295,9 @@ select {
 }
 
 
+.dropzone-file{
+  height: 500px !important;
+}
 .source-input{
   height: 500px !important;
 }
@@ -309,4 +312,8 @@ select {
 }
 .logo-icon-lg{
   width: 60%;
+}
+
+button:hover{
+  cursor: pointer;
 }
