@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { ThemeService } from '../../../../../core/services/theme.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AuthService } from '../../../../../core/services/auth.service';
+import { User } from '../../../../../core/models/user.model';
 
 
 @Component({
@@ -33,6 +35,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class ProfileMenuComponent implements OnInit {
   public isOpen = false;
+  user! : User;
   public profileMenu = [
     {
       title: 'Your Profile',
@@ -47,7 +50,10 @@ export class ProfileMenuComponent implements OnInit {
     {
       title: 'Log out',
       icon: './assets/icons/heroicons/outline/logout.svg',
-      link: '/auth',
+      // link: '/auth',
+      action: () => {
+        this.logout();
+      },
     },
   ];
 
@@ -85,7 +91,14 @@ export class ProfileMenuComponent implements OnInit {
   public themeMode = ['light', 'dark'];
   public themeDirection = ['ltr', 'rtl'];
 
-  constructor(public themeService: ThemeService) {}
+  constructor(public themeService: ThemeService, private authService : AuthService) {
+    effect(() => {
+      if (this.authService.isAuthenticated()) {
+        this.user = this.authService.getUser() as User;
+        console.log(this.user);
+      }
+    })
+  }
 
   ngOnInit(): void {}
 
@@ -98,6 +111,10 @@ export class ProfileMenuComponent implements OnInit {
       const mode = !this.themeService.isDark ? 'dark' : 'light';
       return { ...theme, mode: mode };
     });
+  }
+
+  logout() {
+    this.authService.logout()
   }
 
   toggleThemeColor(color: string) {

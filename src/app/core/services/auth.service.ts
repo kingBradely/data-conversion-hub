@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 import { NotificationService } from "../../shared/services/notification.service";
@@ -8,13 +8,15 @@ import { Role } from "../enums/role.enum";
 import { jwtDecode } from "jwt-decode";
 import { FacebookLoginProvider, SocialAuthService } from "@abacritt/angularx-social-login";
 import { HttpService } from "./http.service";
+import { UserOauth } from "../models/user-oauth.model";
+import { AuthProvider } from "../enums/auth-provider.enum";
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    $isAuthenticated = new BehaviorSubject<boolean>(false);
+    isAuthenticated = signal<boolean>(false);
     token: string = ''
 
 
@@ -29,7 +31,7 @@ export class AuthService {
                 this.setLogoutTimer(tokenExpiration);
                 this.router.navigate(['/dashboard'], { replaceUrl: true });
                 this.notificationService.success('welcome back ' + res.user.firstName);
-                this.$isAuthenticated.next(true)
+                this.isAuthenticated.set(true)
             },
             error: (error: any) => {
                 console.error(error);
@@ -47,7 +49,24 @@ export class AuthService {
                 this.setLogoutTimer(tokenExpiration);
                 this.router.navigate(['/auth/email-confirmation'], { replaceUrl: true });
                 this.notificationService.success('welcome ' + res.user.firstName);
-                this.$isAuthenticated.next(true)
+                this.isAuthenticated.set(true)
+            },
+            error: (error: any) => {
+                console.error(error);
+                this.notificationService.error('ERROR WHILE login')
+            }
+        })
+    }
+
+    signInWithProvider(user: UserOauth) {
+        this.httpService.post<AuthenticationResponse, UserOauth>('auth/login-with-provider', user).subscribe({
+            next: (res: AuthenticationResponse) => {
+                this.saveCredentials(res);
+                const tokenExpiration = this.getTokenExpiration(res.access_token || '');
+                this.setLogoutTimer(tokenExpiration);
+                this.router.navigate(['/dashboard'], { replaceUrl: true });
+                this.notificationService.success('welcome ' + res.user.firstName);
+                this.isAuthenticated.set(true)
             },
             error: (error: any) => {
                 console.error(error);
@@ -65,7 +84,9 @@ export class AuthService {
     }
 
 
-
+    isLoggedIn(): boolean {
+        return this.getUser() !== null && this.getAccessToken() !== null;
+    }
 
     updateUser(data: User) {
         return this.httpService.put<{ user: User }, User>('edit-info/', data);
@@ -95,10 +116,10 @@ export class AuthService {
     }
 
     logout() {
-        this.$isAuthenticated.next(false);
+        this.isAuthenticated.set(false)
         localStorage.clear();
         this.socialAuthService.signOut()
-        this.router.navigate(['/login'], { replaceUrl: true });
+        this.router.navigate(['/auth'], { replaceUrl: true });
         return false;
     }
 
@@ -110,9 +131,9 @@ export class AuthService {
         return localStorage.getItem('token')
     }
 
-    isAuthenticated(): boolean {
-        return this.getUser() !== null && this.getAccessToken() !== null;
-    }
+    // isAuthenticated(): boolean {
+    //     return this.getUser() !== null && this.getAccessToken() !== null;
+    // }
 
 
 
@@ -135,14 +156,17 @@ export class AuthService {
 
     socialAuthInit() {
         this.socialAuthService.authState.subscribe({
-            next: (user: User) => {
+            next: (user: any) => {
                 if (user) {
-                    this.login(user)
+                    user.authProvider = user.provider as AuthProvider
+                    user.profilePicture = user?.photoUrl as string
+                    const {idToken,id,provider,name,photoUrl,authToken,response, ...signedInUser} = user;
+                    
+                    this.signInWithProvider(signedInUser);
                 }
             },
             error: (error: any) => {
                 console.log(error);
-
                 this.notificationService.error("something went wrong")
             }
         });
@@ -188,7 +212,7 @@ export class AuthService {
             if ((decodedToken.exp || 0) < dateNow.getTime() / 1000) {
                 this.logout();  // Call your logout function
             } else {
-                this.$isAuthenticated.next(true)
+                this.isAuthenticated.set(true)
             }
         } else {
             this.logout()

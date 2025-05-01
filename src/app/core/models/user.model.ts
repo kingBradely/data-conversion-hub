@@ -1,17 +1,8 @@
+import { AuthProvider } from "../enums/auth-provider.enum";
 import { Role } from "../enums/role.enum";
+import { Notification } from "./notifications.model";
 
-export enum AuthProvider {
-    LOCAL = 'LOCAL',
-    GOOGLE = 'GOOGLE',
-    FACEBOOK = 'FACEBOOK',
-}
 
-export interface Notification {
-    // Define the Notification structure based on your requirements
-    id: string;
-    message: string;
-    createdAt: Date;
-}
 
 
 export interface User {
@@ -33,5 +24,6 @@ export interface User {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date;
+    idToken?: string;
 
 }

@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { User } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-email-confirmation',
@@ -20,7 +21,8 @@ export class EmailConfirmationComponent implements OnInit {
   constructor(
     private authService: AuthService, 
     private notificationService: NotificationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.form = this.fb.group({
       otp: this.fb.array(
@@ -62,7 +64,7 @@ export class EmailConfirmationComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error resending verification code', error);
-        this.notificationService.error('Failed to resend verification code');
+        this.notificationService.error(error.error.message || 'Error resending verification code');
       }
     });
   }
@@ -84,11 +86,12 @@ export class EmailConfirmationComponent implements OnInit {
     this.authService.verifyVerificationCode({ userId: this.user.id, code }).subscribe({
       next: (res) => {
         this.notificationService.success('Verification successful!');
+        this.router.navigate(['/dashboard'], { replaceUrl: true });
         this.startCountdown = false;
       },
       error: (error) => {
         console.error('Error verifying email', error);
-        this.notificationService.error('Invalid verification code. Please try again.');
+        this.notificationService.error(error.error.message || 'Error verifying email');
       }
     });
   }

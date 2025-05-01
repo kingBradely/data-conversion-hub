@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { CommonModule, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
 
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
@@ -39,7 +39,8 @@ import { NavbarMobileSubmenuComponent } from './components/navbar/navbar-mobile/
     LayoutRoutingModule,
     AngularSvgIconModule.forRoot(),
     NgTemplateOutlet,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    NgOptimizedImage 
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
  

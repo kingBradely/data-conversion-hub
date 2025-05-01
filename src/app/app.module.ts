@@ -16,11 +16,15 @@ import { googleClientId, metaAppId, metaClientId } from './core/constants/menu';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { LandingComponent } from './pages/landing/landing.component';
 import { OutputSnippetComponent } from './shared/components/output-snippet/output-snippet.component';
+import { TermOfUseComponent } from './pages/term-of-use/term-of-use.component';
+import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
+    TermOfUseComponent,
+    PrivacyPolicyComponent
   ],
   imports: [
     BrowserModule,
