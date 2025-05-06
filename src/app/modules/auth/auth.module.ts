@@ -11,6 +11,8 @@ import { AuthComponent } from './auth.component';
 import { GoogleSignInButtonComponent } from '../../shared/components/google-sign-in-button/google-sign-in-button.component';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { TimerComponent } from '../../shared/components/timer/timer.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { TimerComponent } from '../../shared/components/timer/timer.component';
     LoginComponent,
     RegisterComponent,
     AuthComponent,
-    EmailConfirmationComponent
+    EmailConfirmationComponent,
+    ResetPasswordComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     CommonModule,

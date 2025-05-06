@@ -83,6 +83,20 @@ export class AuthService {
         return this.httpService.post<{ message: string }, { userId: string }>('auth/resend-code', { userId });
     }
 
+    forgotPassword(data: { email: string }) {
+        console.log(data);
+        
+        return this.httpService.post<{ message: string }, { email: string }>('auth/forgot-password', data);
+    }
+
+    verifyResetPasswordToken(data: { token: string }) {
+        return this.httpService.post<{ message: string }, { token: string }>('auth/verify-reset-password-token', data); 
+    }
+
+    resetPassword(data: { password: string, token: string }) {
+        return this.httpService.post<{ message: string }, { password: string, token: string }>('auth/reset-password', data);
+    }
+
 
     isLoggedIn(): boolean {
         return this.getUser() !== null && this.getAccessToken() !== null;
