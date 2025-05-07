@@ -12,6 +12,7 @@ export class AppComponent {
   title = 'Task Manager';
   constructor(public themeService: ThemeService, private authService: AuthService) {
     this.authService.socialAuthInit()
-    this.authService.isAuthenticated.set(this.authService.isLoggedIn())
+    this.authService.isTokenExpired()
+
   }
 }

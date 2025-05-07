@@ -1,4 +1,4 @@
-import { Injectable, signal } from "@angular/core";
+import { effect, Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 import { NotificationService } from "../../shared/services/notification.service";
@@ -99,7 +99,18 @@ export class AuthService {
 
 
     isLoggedIn(): boolean {
-        return this.getUser() !== null && this.getAccessToken() !== null;
+        if (this.getAccessToken() && this.getUser()) {
+            const decodedToken = this.parseJwt(this.getAccessToken() || '');
+            const dateNow = new Date();
+            // exp is in seconds, convert it to milliseconds
+            if ((decodedToken.exp || 0) < dateNow.getTime() / 1000) {
+                return false;
+            } else {
+                return true;
+            }
+            
+        }
+        return false;
     }
 
     updateUser(data: User) {
@@ -220,16 +231,20 @@ export class AuthService {
 
     isTokenExpired() {
         if (this.getAccessToken()) {
+            
             const decodedToken = jwtDecode(this.getAccessToken() || '');
             const dateNow = new Date();
             // exp is in seconds, convert it to milliseconds
             if ((decodedToken.exp || 0) < dateNow.getTime() / 1000) {
                 this.logout();  // Call your logout function
+                this.isAuthenticated.set(false)
             } else {
+                console.log('Token is not expired');
                 this.isAuthenticated.set(true)
             }
         } else {
             this.logout()
+            this.isAuthenticated.set(false)
         }
 
     }
